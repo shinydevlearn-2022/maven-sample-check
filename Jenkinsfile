@@ -3,12 +3,16 @@ pipeline {
   tools {
     maven 'Maven'
   }
+  environment {
+        TOMCAT_HOME = '/home/shiny/apache-tomcat-9.0.97'
+  }
   stages {
     stage('Initialize') {
       steps {
         sh '''
          echo "PATH = ${PATH}"
          echo "M2_HOME = ${M2_HOME}"
+         echo "TOMCAT_HOME = ${TOMCAT_HOME}"
         ''' 
       }
     }   
@@ -20,15 +24,15 @@ pipeline {
     stage('Deploy-to-Tomcat') {
       steps {
         sh '''
-           cp target/*.war /home/shiny/apache-tomcat-9.0.97/webapps/webapp.war
+           cp target/*.war ${TOMCAT_HOME}/webapps/webapp.war
         '''
       }
     }
     stage('Restart-Tomcat') {
       steps {
         sh '''
-           /home/shiny/apache-tomcat-9.0.97/bin/shutdown.sh || true
-           /home/shiny/apache-tomcat-9.0.97/bin/startup.sh
+           ${TOMCAT_HOME}/bin/shutdown.sh || true
+           ${TOMCAT_HOME}/bin/startup.sh
         '''
       }
     }  
