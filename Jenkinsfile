@@ -10,7 +10,7 @@ pipeline {
                echo "PATH = ${PATH}"
                echo ""M2_HOME = ${M2-HOME}"
            '''
-     }
+      }
      }     
      stage('Build') {
        sh 'mvn clean package'
