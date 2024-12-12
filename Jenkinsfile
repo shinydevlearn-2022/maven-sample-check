@@ -2,11 +2,18 @@ pipeline {
     agent any 
     tools {
         maven 'Maven'
+        jdk 'Java 17'
     }
     environment {
         TOMCAT_HOME = '/home/shiny/apache-tomcat-9.0.97'
     }
     stages {
+        stage('Check Java') {
+            steps {
+                echo "Checking Java version..."
+                sh 'java -version'
+            }
+        }    
         stage('Initialize') {
             steps {
                 echo "Initializing environment variables"
@@ -19,15 +26,15 @@ pipeline {
         }   
         stage('Build') {
             steps {   
-                echo "Building project with Maven"
+                echo "Building the project using Maven"
                 sh 'mvn clean package'
             }
         }
         stage('Deploy-to-Tomcat') {
             steps {
-                echo "Deploying to Tomcat"
+                echo "Deploying War file to Tomcat"
                 sh '''
-                sudo cp target/*.war ${TOMCAT_HOME}/webapps/webapp.war
+                sudo cp target/*.war ${TOMCAT_HOME}/webapps/simple-maven-project-1.0-SNAPSHOT.war
                 '''
             }
         }
