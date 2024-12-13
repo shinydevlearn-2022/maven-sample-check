@@ -6,8 +6,24 @@ pipeline {
     }
     environment {
         TOMCAT_HOME = '/home/shiny/apache-tomcat-9.0.97'
+        REPO_URL = 'https://github.com/shinydevlearn-2022/maven-sample-check.git'
+        BRANCH_NAME = 'master'
     }
     stages {
+        stage('Checkout Code') {
+            steps {
+                script {
+                    checkout scm: [
+                        $class: 'GitSCM',
+                        branches: [[name: BRANCH_NAME]],
+                        userRemoteConfigs: [[
+                            url: REPO_URL,
+                            credentialsId: '6121efbd-0dd6-43c2-90fb-f35fbc1a4f04'
+                        ]]
+                    ]
+                }
+            }
+        }
         stage('Check Java') {
             steps {
                 echo "Checking Java version..."
