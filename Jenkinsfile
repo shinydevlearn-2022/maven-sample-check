@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Check-Git-Secrets') {
             steps {
-                sh 'docker run gesellix/trufflehog --json https://github.com/shinydevlearn-2022/maven-sample-check.git > trufflehog'
+                sh 'sudo docker run gesellix/trufflehog --json https://github.com/shinydevlearn-2022/maven-sample-check.git > trufflehog'
                 sh 'cat trufflehog'
             }
         }    
