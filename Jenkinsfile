@@ -24,6 +24,12 @@ pipeline {
                 }
             }
         }
+        stage('Check-Git-Secrets') {
+            steps {
+                sh 'docker run gesellix/trufflehog --json https://github.com/shinydevlearn-2022/maven-sample-check.git > trufflehog'
+                sh 'cat trufflehog'
+            }
+        }    
         stage('Check Java') {
             steps {
                 echo "Checking Java version..."
