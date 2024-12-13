@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Source Compilation Analysis') {
             steps {
-                sh 'wget "https://raw.githubusercontent.com/shinydevlearn-2022/maven-sample-check/refs/heads/master/owasp-dependency-check.sh"'
+                sh 'wget "https://raw.githubusercontent.com/shinydevlearn-2022/maven-sample-check/refs/heads/master/owasp-dependency-check.sh" '
                 sh 'chmod +x owasp-dependency-check.sh'
                 sh 'bash owasp-dependency-check.sh'
             }
