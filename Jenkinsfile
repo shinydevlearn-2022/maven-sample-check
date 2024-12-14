@@ -42,7 +42,7 @@ pipeline {
             steps {
                 with SonarQubeEnv('devsecops') {
                     sh 'mvn sonar:sonar'
-                    sh 'cat target/sonar/reports-task.test/
+                    sh 'cat target/sonar/reports-task.test'
                 }
             }
         }    
