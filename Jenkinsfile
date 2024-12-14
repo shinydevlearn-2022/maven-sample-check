@@ -40,7 +40,7 @@ pipeline {
         }
         stage('SAST') {
             steps {
-                with SonarQubeEnv('devsecops') {
+                with SonarQubeEnv('sonar') {
                     sh 'mvn sonar:sonar'
                     sh 'cat target/sonar/reports-task.test'
                 }
