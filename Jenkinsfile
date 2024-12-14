@@ -37,6 +37,14 @@ pipeline {
                 sh 'sudo bash owasp-dependency-check.sh'
                 sh 'cat odc-reports/dependency-check-report.xml'
             }
+        }
+        stage('SAST') {
+            steps {
+                with SonarQubeEnv('devsecops') {
+                    sh 'mvn sonar:sonar'
+                    sh 'cat target/sonar/reports-task.test/
+                }
+            }
         }    
         stage('Check Java') {
             steps {
