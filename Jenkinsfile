@@ -88,7 +88,7 @@ pipeline {
     stage('DAST') {
         steps {
             sshagent('zap') {
-                sh 'ssh -o "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://localhost:8090/webapps" '
+                sh 'zap-baseline.py -t http://localhost:8090 -r report.html'
             }
         }
     }    
