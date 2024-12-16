@@ -10,7 +10,7 @@ pipeline {
         BRANCH_NAME = 'master'
     }
     stages {
-       stage('Checkout Code') {
+        stage('Checkout Code') {
             steps {
                 script {
                     checkout scm: [
@@ -45,13 +45,13 @@ pipeline {
                     sh 'sudo cat /home/shiny/simple-maven-project/target/sonar/report-task.txt'
                 }
             }
-        }    
+        }
         stage('Check Java') {
             steps {
                 echo "Checking Java version..."
                 sh 'java -version'
             }
-        }    
+        }
         stage('Initialize') {
             steps {
                 echo "Initializing environment variables"
@@ -61,9 +61,9 @@ pipeline {
                 echo "TOMCAT_HOME = ${TOMCAT_HOME}"
                 '''
             }
-        }   
+        }
         stage('Build') {
-            steps {   
+            steps {
                 echo "Building the project using Maven"
                 sh 'mvn clean package'
             }
@@ -76,22 +76,22 @@ pipeline {
                 '''
             }
         }
-        post {
-           success {
-              echo "Build and deployment completed successfully!"
-           } 
-           failure {
-              echo "Build or deployment failed. Check logs for details."
-           }
-        }
         stage('DAST') {
-           steps {
-              sshagent(['zap']) {
-                 sh '''
-                     docker run -t iniweb/owasp-zap2docker-stable zap-baseline.py -t http://localhost:8090
-                 '''
-              }
-           }
+            steps {
+                sshagent(['zap']) {
+                    sh '''
+                        docker run -t iniweb/owasp-zap2docker-stable zap-baseline.py -t http://localhost:8090
+                    '''
+                }
+            }
         }
-    }    
+    }
+    post {
+        success {
+            echo "Build and deployment completed successfully!"
+        } 
+        failure {
+            echo "Build or deployment failed. Check logs for details."
+        }
+    }
 }
