@@ -85,4 +85,11 @@ pipeline {
             echo "Build or deployment failed. Check logs for details."
         }
     }
+    stage('DAST') {
+        steps {
+            sshagent('zap') {
+                sh 'ssh -o "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://localhost:8090/webapps" '
+            }
+        }
+    }    
 }
