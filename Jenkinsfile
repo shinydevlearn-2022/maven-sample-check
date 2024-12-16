@@ -42,7 +42,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonar') {
                     sh 'mvn sonar:sonar'
-                    sh 'cat /home/shiny/simple-maven-project/target/sonar/report-task.txt'
+                    sh 'sudo cat /home/shiny/simple-maven-project/target/sonar/report-task.txt'
                 }
             }
         }    
