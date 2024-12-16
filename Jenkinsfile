@@ -88,7 +88,9 @@ pipeline {
     stage('DAST') {
         steps {
             sshagent(['zap']) {
-                sh 'docker run -t iniweb/owasp-zap2docker-stable zap-baseline.py -t http://localhost:8090/webapps
+                sh '''
+                    docker run -t iniweb/owasp-zap2docker-stable zap-baseline.py -t http://localhost:8090/webapps
+                '''
             }
         }
     }    
