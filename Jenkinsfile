@@ -10,7 +10,7 @@ pipeline {
         BRANCH_NAME = 'master'
     }
     stages {
-        stage('Checkout Code') {
+       stage('Checkout Code') {
             steps {
                 script {
                     checkout scm: [
@@ -76,22 +76,22 @@ pipeline {
                 '''
             }
         }
-    }
-    post {
-        success {
-            echo "Build and deployment completed successfully!"
+        post {
+           success {
+              echo "Build and deployment completed successfully!"
+           } 
+           failure {
+              echo "Build or deployment failed. Check logs for details."
+           }
         }
-        failure {
-            echo "Build or deployment failed. Check logs for details."
-        }
-    }
-    stage('DAST') {
-        steps {
-            sshagent(['zap']) {
-                sh '''
-                    docker run -t iniweb/owasp-zap2docker-stable zap-baseline.py -t http://localhost:8090
-                '''
-            }
+        stage('DAST') {
+           steps {
+              sshagent('zap') {
+                 sh '''
+                     docker run -t iniweb/owasp-zap2docker-stable zap-baseline.py -t http://localhost:8090
+                 '''
+              }
+           }
         }
     }    
 }
